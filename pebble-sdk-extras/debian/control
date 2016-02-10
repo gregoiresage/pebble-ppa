@@ -7,6 +7,6 @@ Standards-Version: 3.9.4
 
 Package: pebble-sdk-extras
 Architecture: any
-Depends: pebble-sdk
+Depends: pebble-sdk (>= 4.0)
 Description: Extras package for the Pebble SDK
  Contains fun stuff for Pebble development
