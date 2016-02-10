@@ -1,0 +1,68 @@
+_pebble()  
+{
+    local command cur prev prev2
+    COMPREPLY=()
+    command="${COMP_WORDS[0]}"
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    prev2="${COMP_WORDS[COMP_CWORD-2]}"
+
+    if [ "${COMP_CWORD}" == "1" ]; then
+    	local opts="sdk build clean install logs screenshot insert-pin delete-pin emu-accel emu-app-config emu-battery emu-bt-connection emu-compass emu-control emu-tap emu-time-format ping login logout repl transcribe data-logging new-project kill wipe analyze-size convert-project"
+    	COMPREPLY=( $(compgen -W "$opts" -- $cur) )
+    	return 0
+    elif [ "${COMP_CWORD}" == "2" ]; then
+    	case "$prev" in
+    	sdk)
+    		local opts="list install activate uninstall set-channel include-path"
+    	    COMPREPLY=( $(compgen -W "$opts" -- $cur) )
+    	    return 0
+    	    ;;
+    	emu-*)
+    		return 0
+    		;;
+    	esac
+    fi
+
+    case "${COMP_WORDS[1]}" in
+    sdk)
+    	case "$prev" in
+    	activate)
+        	local installedsdks=$(for x in `pebble sdk list | awk '/Installed SDKs:/ {do_print=1} do_print==1 {print} NF==0 {do_print=0}' | grep -Ei '^([0-9]\.)+[0-9]$'`; 	do echo ${x} ; done )
+        	COMPREPLY=( $(compgen -W "$installedsdks" -- ${cur}) )
+        	return 0
+        	;;
+        uninstall)
+        	local installedsdks=$(for x in `pebble sdk list | awk '/Installed SDKs:/ {do_print=1} do_print==1 {print} NF==0 {do_print=0}' | grep -oEi '^([0-9]\.)+[0-9]'`; 	do echo ${x} ; done )
+        	COMPREPLY=( $(compgen -W "$installedsdks" -- ${cur}) )
+        	return 0
+        	;;
+    	install)
+    	    local availablesdks=$(for x in `pebble sdk list | awk '/Available SDKs:/ {do_print=1} do_print==1 {print} NF==0 {do_print=0}' | grep -oEi '^([0-9]\.)+[0-9]'`; 	do echo ${x} ; done )
+    	    COMPREPLY=( $(compgen -W "$availablesdks" -- ${cur}) )
+    	    return 0
+    	    ;;
+    	*)
+    		return 0
+        	;;
+        esac
+        ;;
+    logs|install|screenshot)
+    	case "$prev" in
+    	--emulator)
+			COMPREPLY=( $(compgen -W "aplite basalt chalk" -- $cur) )
+			return 0
+			;;
+		esac
+		case "$cur" in
+		-*)
+    		COMPREPLY=( $(compgen -W "--emulator --cloud --phone --logs" -- $cur) )
+        	return 0
+        	;;
+        esac
+        ;;
+    esac
+
+    return 0
+}
+complete -F _pebble pebble

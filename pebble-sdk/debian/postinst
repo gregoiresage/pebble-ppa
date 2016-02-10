@@ -1,0 +1,25 @@
+#!/bin/bash 
+version="4.0"
+
+if [ $(uname -m) == 'x86_64' ]; then
+  bitness="64"
+else
+  bitness="32"
+fi
+
+destination="/usr/share/pebble-sdk"
+
+mkdir -p $destination
+rm -rf $destination/*
+cd $destination
+
+wget https://s3.amazonaws.com/assets.getpebble.com/pebble-tool/pebble-sdk-$version-linux$bitness.tar.bz2
+tar xf pebble-sdk-$version-linux$bitness.tar.bz2
+mv pebble-sdk-$version-linux$bitness/* .
+rm -rf pebble-sdk-$version-linux$bitness*
+
+sudo pip install -q virtualenv
+virtualenv --no-site-packages .env
+source .env/bin/activate
+pip install -q -r requirements.txt
+deactivate

@@ -1,0 +1,12 @@
+Source: pebble-sdk-extras
+Section: devel
+Priority: optional
+Maintainer: Grégoire Sage <gregoire.sage@gmail.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+
+Package: pebble-sdk-extras
+Architecture: any
+Depends: pebble-sdk
+Description: Extras package for the Pebble SDK
+ Contains fun stuff for Pebble development

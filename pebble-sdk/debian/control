@@ -1,0 +1,13 @@
+Source: pebble-sdk
+Section: devel
+Priority: optional
+Maintainer: Grégoire Sage <gregoire.sage@gmail.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Homepage: https://developer.pebble.com/sdk/
+
+Package: pebble-sdk
+Architecture: any
+Depends: python-pip, python2.7-dev, libsdl1.2debian, libfdt1, libpixman-1-0
+Description: Unofficial pebble-sdk package
+ Unofficial pebble-sdk package
