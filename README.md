@@ -22,9 +22,8 @@ sudo apt-get install pebble-sdk pebble-sdk-extras
 ```
 cd pebble-sdk
 debuild -S
+dput ppa:gregoire-sage/pebble-sdk ../pebble-sdk_4.1.1.0_source.changes
 cd ../pebble-sdk-extras
 debuild -S
-cd ..
-dput ppa:gregoire-sage/pebble-sdk ../pebble-sdk_4.1.1.0_source.changes
 dput ppa:gregoire-sage/pebble-sdk ../pebble-sdk-extras_0.0.0.1_source.changes
 ```
