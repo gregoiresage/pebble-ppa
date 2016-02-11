@@ -6,7 +6,7 @@ This package will install the *Pebble Tool* in your system :
 
 ## pebble-sdk-extras
 This package will install extra tools for Pebble developments :
-* ```/etc/bash_completions.d/pebble_completion``` : provides autocompletion for the pebble command
+* ```/etc/bash_completion.d/pebble_completion``` : provides autocompletion for the pebble command
 
 # How to install the packages
 ```
