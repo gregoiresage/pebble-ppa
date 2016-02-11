@@ -14,15 +14,37 @@ _pebble()
     elif [ "${COMP_CWORD}" == "2" ]; then
     	case "$prev" in
     	sdk)
-    		local opts="list install activate uninstall set-channel include-path"
-    	    COMPREPLY=( $(compgen -W "$opts" -- $cur) )
+    	    COMPREPLY=( $(compgen -W "list install activate uninstall set-channel include-path" -- $cur) )
     	    return 0
     	    ;;
+        data-logging)
+            COMPREPLY=( $(compgen -W "list download get-sends-enabled enable-sends disable-sends" -- $cur) )
+            return 0
+            ;;
+        emu-accel)
+            COMPREPLY=( $(compgen -W "tilt-left tilt-right tilt-forward tilt-back gravity+x gravity-x gravity+y gravity-y gravity+z gravity-z none custom" -- $cur) )
+            return 0
+            ;;
     	emu-*)
     		return 0
     		;;
     	esac
     fi
+
+    case "$prev" in
+    --emulator)
+        COMPREPLY=( $(compgen -W "aplite basalt chalk" -- $cur) )
+        return 0
+        ;;
+    --sdk)
+        local installedsdks=$(for x in `pebble sdk list | awk '/Installed SDKs:/ {do_print=1} do_print==1 {print} NF==0 {do_print=0}' | grep -oEi '^([0-9]\.)+[0-9]'`;  do echo ${x} ; done )
+        COMPREPLY=( $(compgen -W "$installedsdks" -- ${cur}) )
+        return 0
+        ;;
+    --phone|--serial|--qemu|--id|--app-uuid|--session-id)
+        return 0
+        ;;
+    esac
 
     case "${COMP_WORDS[1]}" in
     sdk)
@@ -39,30 +61,107 @@ _pebble()
         	;;
     	install)
     	    local availablesdks=$(for x in `pebble sdk list | awk '/Available SDKs:/ {do_print=1} do_print==1 {print} NF==0 {do_print=0}' | grep -oEi '^([0-9]\.)+[0-9]'`; 	do echo ${x} ; done )
-    	    COMPREPLY=( $(compgen -W "$availablesdks" -- ${cur}) )
+    	    COMPREPLY=( $(compgen -W "$availablesdks latest" -- ${cur}) )
     	    return 0
     	    ;;
-    	*)
-    		return 0
-        	;;
-        esac
-        ;;
-    logs|install|screenshot)
-    	case "$prev" in
-    	--emulator)
-			COMPREPLY=( $(compgen -W "aplite basalt chalk" -- $cur) )
-			return 0
-			;;
-		esac
-		case "$cur" in
-		-*)
-    		COMPREPLY=( $(compgen -W "--emulator --cloud --phone --logs" -- $cur) )
-        	return 0
-        	;;
+    	# *)
+    	# 	return 0
+     #    	;;
         esac
         ;;
     esac
 
+    case "$cur" in
+    -*)
+        local -A flags;
+
+        case "${COMP_WORDS[1]}" in
+        logs)
+            flags[--phone]=ok;
+            flags[--qemu]=ok;
+            flags[--cloudpebble]=ok;
+            flags[--emulator]=ok;
+            flags[--sdk]=ok;
+            flags[--serial]=ok;
+            flags[--color]=ok;
+            flags[--no-color]=ok;
+            ;;
+        install)
+            flags[--phone]=ok;
+            flags[--qemu]=ok;
+            flags[--cloudpebble]=ok;
+            flags[--emulator]=ok;
+            flags[--sdk]=ok;
+            flags[--serial]=ok;
+            flags[--logs]=ok;
+            ;;
+        screenshot)
+            flags[--phone]=ok;
+            flags[--qemu]=ok;
+            flags[--cloudpebble]=ok;
+            flags[--emulator]=ok;
+            flags[--sdk]=ok;
+            flags[--serial]=ok;
+            flags[--no-correction]=ok;
+            flags[--no-open]=ok;
+            ;;
+        data-logging)
+            flags[--phone]=ok;
+            flags[--qemu]=ok;
+            flags[--cloudpebble]=ok;
+            flags[--emulator]=ok;
+            flags[--sdk]=ok;
+            flags[--serial]=ok;
+            flags[--session-id]=ok;
+            ;;
+        insert-pin)
+            flags[--phone]=ok;
+            flags[--qemu]=ok;
+            flags[--cloudpebble]=ok;
+            flags[--emulator]=ok;
+            flags[--sdk]=ok;
+            flags[--id]=ok;
+            flags[--app-uuid]=ok;
+            ;;
+        delete-pin)
+            flags[--phone]=ok;
+            flags[--qemu]=ok;
+            flags[--cloudpebble]=ok;
+            flags[--emulator]=ok;
+            flags[--sdk]=ok;
+            flags[--id]=ok;
+            ;;
+        emu-*)
+            flags[--qemu]=ok;
+            flags[--emulator]=ok;
+            flags[--sdk]=ok;
+            ;;
+        esac
+
+        for word in "${COMP_WORDS[@]}"
+        do
+            # remove already used words
+            if [ "$word" != "" ]; then
+                unset flags[$word];
+            fi
+
+            # remove incompatible words
+            if [[ "$word" == "--emulator" || "$word" == "--phone" || "$word" == "--qemu" || "$word" == "--serial" || "$word" == "--cloudpebble" ]]  ; then
+                unset flags[--emulator];
+                unset flags[--phone];
+                unset flags[--qemu];
+                unset flags[--serial];
+                unset flags[--cloudpebble];
+            elif [[ "$word" == "--color" || "$word" == "--no-color" ]]  ; then
+                unset flags[--color];
+                unset flags[--no-color];
+            fi
+        done
+
+        COMPREPLY=( $(compgen -W "${!flags[*]}" -- $cur) )
+        return 0
+        ;;
+    esac
     return 0
 }
 complete -F _pebble pebble
