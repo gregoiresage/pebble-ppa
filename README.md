@@ -21,7 +21,7 @@ sudo apt-get install pebble-sdk pebble-sdk-extras
 # How to build and upload the packages
 ```
 cd pebble-sdk
-dbuild -S
+debuild -S
 cd ../pebble-sdk-extras
 debuild -S
 cd ..
