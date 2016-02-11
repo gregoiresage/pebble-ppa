@@ -1,5 +1,5 @@
-pebble-sdk-extras (0.0.1.1) trusty; urgency=low
+pebble-sdk-extras (0.0.2.0) trusty; urgency=low
 
-  * Fix autocompletion not working just after installation
+  * Improve pebble command autocompletions
 
- -- Grégoire Sage <gregoire.sage@gmail.com>  Wed, 11 Feb 2016 00:00:00 +0100
+ -- Grégoire Sage <gregoire.sage@gmail.com>  Wed, 12 Feb 2016 00:00:00 +0100
