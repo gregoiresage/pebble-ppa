@@ -25,9 +25,6 @@ _pebble()
             COMPREPLY=( $(compgen -W "tilt-left tilt-right tilt-forward tilt-back gravity+x gravity-x gravity+y gravity-y gravity+z gravity-z none custom" -- $cur) )
             return 0
             ;;
-    	emu-*)
-    		return 0
-    		;;
     	esac
     fi
 
@@ -41,7 +38,23 @@ _pebble()
         COMPREPLY=( $(compgen -W "$installedsdks" -- ${cur}) )
         return 0
         ;;
-    --phone|--serial|--qemu|--id|--app-uuid|--session-id)
+    --logging_level)
+        COMPREPLY=( $(compgen -W "SEVERE" -- $cur) )
+        return 0
+        ;;
+    --connected)
+        COMPREPLY=( $(compgen -W "yes no" -- $cur) )
+        return 0
+        ;;
+    --direction)
+        COMPREPLY=( $(compgen -W "x+ x- y+ y- z+ z-" -- $cur) )
+        return 0
+        ;;
+    --format)
+        COMPREPLY=( $(compgen -W "12h 24h" -- $cur) )
+        return 0
+        ;;
+    --phone|--serial|--qemu|--id|--app-uuid|--session-id|--auth_host_name|--auth_host_port|--percent|--heading)
         return 0
         ;;
     esac
@@ -135,6 +148,77 @@ _pebble()
             flags[--qemu]=ok;
             flags[--emulator]=ok;
             flags[--sdk]=ok;
+            case "${COMP_WORDS[1]}" in
+            emu-accel)
+                ;;
+            emu-battery)
+                flags[--percent]=ok;
+                flags[--charging]=ok;
+                ;;
+            emu-battery)
+                flags[--connected]=ok;
+                ;;
+            emu-compass)
+                flags[--heading]=ok;
+                flags[--uncalibrated]=ok;
+                flags[--calibrating]=ok;
+                flags[--calibrated]=ok;
+                ;;
+            emu-tap)
+                flags[--direction]=ok;
+                ;;
+            emu-time-format)
+                flags[--format]=ok;
+                ;;
+            esac
+            ;;
+        repl)
+            flags[--phone]=ok;
+            flags[--qemu]=ok;
+            flags[--cloudpebble]=ok;
+            flags[--emulator]=ok;
+            flags[--sdk]=ok;
+            flags[--serial]=ok;
+            ;;
+        convert-project)
+            flags[--sdk]=ok;
+            ;;
+        login)
+            flags[--auth_host_name]=ok;
+            flags[--auth_host_port]=ok;
+            flags[--logging_level]=ok;
+            flags[--noauth_local_webserver]=ok;
+            ;;
+        ping)
+            flags[--phone]=ok;
+            flags[--qemu]=ok;
+            flags[--cloudpebble]=ok;
+            flags[--emulator]=ok;
+            flags[--sdk]=ok;
+            flags[--serial]=ok;
+            ;;
+        build)
+            flags[--sdk]=ok;
+            ;;
+        clean)
+            flags[--sdk]=ok;
+            ;;
+        kill)
+            flags[--force]=ok;
+            ;;
+        wipe)
+            flags[--everything]=ok;
+            ;;
+        new-project)
+            flags[--sdk]=ok;
+            flags[--simple]=ok;
+            flags[--javascript]=ok;
+            flags[--worker]=ok;
+            ;;
+        analyze-size)
+            flags[--sdk]=ok;
+            flags[--summary]=ok;
+            flags[--verbose]=ok;
             ;;
         esac
 
