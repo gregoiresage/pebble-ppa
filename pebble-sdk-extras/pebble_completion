@@ -54,6 +54,16 @@ _pebble()
         COMPREPLY=( $(compgen -W "12h 24h" -- $cur) )
         return 0
         ;;
+    --file)
+        # add html files
+        # COMPREPLY=( $(compgen -f -X !*.html -- $cur) )
+        # add folders
+        # COMPREPLY+=( $(compgen -d -- $cur) )
+
+        # add all files
+        COMPREPLY+=( $(compgen -f -- $cur) )
+        return 0
+        ;;
     --phone|--serial|--qemu|--id|--app-uuid|--session-id|--auth_host_name|--auth_host_port|--percent|--heading)
         return 0
         ;;
@@ -63,17 +73,17 @@ _pebble()
     sdk)
     	case "$prev" in
     	activate)
-        	local installedsdks=$(for x in `pebble sdk list | awk '/Installed SDKs:/ {do_print=1} do_print==1 {print} NF==0 {do_print=0}' | grep -Ei '^([0-9]\.)+[0-9]$'`; 	do echo ${x} ; done )
+        	local installedsdks=$(for x in `pebble sdk list | awk '/Installed SDKs:/ {do_print=1} do_print==1 {print} NF==0 {do_print=0}' | grep -Ei '^[0-9.]*(-beta[0-9]+){0,1}$'`; 	do echo ${x} ; done )
         	COMPREPLY=( $(compgen -W "$installedsdks" -- ${cur}) )
         	return 0
         	;;
         uninstall)
-        	local installedsdks=$(for x in `pebble sdk list | awk '/Installed SDKs:/ {do_print=1} do_print==1 {print} NF==0 {do_print=0}' | grep -oEi '^([0-9]\.)+[0-9]'`; 	do echo ${x} ; done )
+        	local installedsdks=$(for x in `pebble sdk list | awk '/Installed SDKs:/ {do_print=1} do_print==1 {print} NF==0 {do_print=0}' | grep -oEi '^[0-9.]*(-beta[0-9]+){0,1}'`; 	do echo ${x} ; done )
         	COMPREPLY=( $(compgen -W "$installedsdks" -- ${cur}) )
         	return 0
         	;;
     	install)
-    	    local availablesdks=$(for x in `pebble sdk list | awk '/Available SDKs:/ {do_print=1} do_print==1 {print} NF==0 {do_print=0}' | grep -oEi '^([0-9]\.)+[0-9]'`; 	do echo ${x} ; done )
+    	    local availablesdks=$(for x in `pebble sdk list | awk '/Available SDKs:/ {do_print=1} do_print==1 {print} NF==0 {do_print=0}' | grep -oEi '^[0-9.]*(-beta[0-9]+){0,1}'`; 	do echo ${x} ; done )
     	    COMPREPLY=( $(compgen -W "$availablesdks latest" -- ${cur}) )
     	    return 0
     	    ;;
@@ -170,6 +180,9 @@ _pebble()
             emu-time-format)
                 flags[--format]=ok;
                 ;;
+            emu-app-config)
+                flags[--file]=ok;
+                ;;
             esac
             ;;
         repl)
@@ -248,4 +261,4 @@ _pebble()
     esac
     return 0
 }
-complete -F _pebble pebble
+complete -o filenames -o bashdefault -F _pebble pebble
