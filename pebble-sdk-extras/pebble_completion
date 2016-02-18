@@ -34,7 +34,7 @@ _pebble()
         return 0
         ;;
     --sdk)
-        local installedsdks=$(for x in `pebble sdk list | awk '/Installed SDKs:/ {do_print=1} do_print==1 {print} NF==0 {do_print=0}' | grep -oEi '^([0-9]\.)+[0-9]'`;  do echo ${x} ; done )
+        local installedsdks=$(for x in `pebble sdk list | awk '/Installed SDKs:/ {do_print=1} do_print==1 {print} NF==0 {do_print=0}' | grep -oEi '^[0-9.]*(-beta[0-9]+){0,1}'`;  do echo ${x} ; done )
         COMPREPLY=( $(compgen -W "$installedsdks" -- ${cur}) )
         return 0
         ;;

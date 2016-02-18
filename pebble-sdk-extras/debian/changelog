@@ -1,7 +1,6 @@
-pebble-sdk-extras (0.0.2.2) trusty; urgency=low
+pebble-sdk-extras (0.0.2.3) trusty; urgency=low
 
   * Improve pebble command autocompletions :
-  	- pebble emu-app-config --file
   	- handle beta version of the sdks
 
- -- Grégoire Sage <gregoire.sage@gmail.com>  Wed, 19 Feb 2016 22:25:00 +0100
+ -- Grégoire Sage <gregoire.sage@gmail.com>  Wed, 19 Feb 2016 00:25:00 +0100
