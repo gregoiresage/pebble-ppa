@@ -8,7 +8,7 @@ _pebble()
     prev2="${COMP_WORDS[COMP_CWORD-2]}"
 
     if [ "${COMP_CWORD}" == "1" ]; then
-    	local opts="sdk build clean install logs screenshot insert-pin delete-pin emu-accel emu-app-config emu-battery emu-bt-connection emu-compass emu-control emu-tap emu-time-format ping login logout repl transcribe data-logging new-project kill wipe analyze-size convert-project"
+    	local opts="sdk build clean install logs screenshot insert-pin delete-pin emu-accel emu-app-config emu-battery emu-bt-connection emu-compass emu-control emu-tap emu-time-format ping login logout repl transcribe data-logging new-project kill wipe analyze-size convert-project gdb"
     	COMPREPLY=( $(compgen -W "$opts" -- $cur) )
     	return 0
     elif [ "${COMP_CWORD}" == "2" ]; then
@@ -232,6 +232,10 @@ _pebble()
             flags[--sdk]=ok;
             flags[--summary]=ok;
             flags[--verbose]=ok;
+            ;;
+        gdb)
+            flags[--emulator]=ok;
+            flags[--sdk]=ok;
             ;;
         esac
 

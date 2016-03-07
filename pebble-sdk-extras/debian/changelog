@@ -1,6 +1,6 @@
-pebble-sdk-extras (0.0.2.3) trusty; urgency=low
+pebble-sdk-extras (0.0.3.0) trusty; urgency=low
 
   * Improve pebble command autocompletions :
-  	- handle beta version of the sdks
+  	- handle gdb command
 
- -- Grégoire Sage <gregoire.sage@gmail.com>  Wed, 19 Feb 2016 00:25:00 +0100
+ -- Grégoire Sage <gregoire.sage@gmail.com>  Mon, 7 Mar 2016 23:10:00 +0100
