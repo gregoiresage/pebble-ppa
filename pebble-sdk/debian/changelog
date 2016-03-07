@@ -1,5 +1,5 @@
-pebble-sdk (4.1.1.0) trusty; urgency=low
+pebble-sdk (4.2.0.0) trusty; urgency=low
 
-  * Package Pebble SDK 4.1.1
+  * Package Pebble SDK 4.2.0
 
- -- Grégoire Sage <gregoire.sage@gmail.com>  Wed, 11 Feb 2016 00:00:00 +0100
+ -- Grégoire Sage <gregoire.sage@gmail.com>  Mon, 7 Mar 2016 22:30:00 +0100
