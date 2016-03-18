@@ -1,0 +1,5 @@
+pebble-arm-cs-tools (2.0.0.0) trusty; urgency=low
+
+  * Package Pebble arm-cs-tools 2.0.0
+
+ -- Grégoire Sage <gregoire.sage@gmail.com>  Fri, 18 Mar 2016 22:30:00 +0100

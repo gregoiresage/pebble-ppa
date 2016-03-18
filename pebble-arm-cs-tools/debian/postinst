@@ -1,0 +1,11 @@
+#!/bin/bash 
+dir=`mktemp -d` && cd $dir
+if [ $(uname -m) == 'x86_64' ]; then
+  bitness="universal"
+else
+  bitness="32bit"
+fi
+wget http://assets.getpebble.com.s3-website-us-east-1.amazonaws.com/sdk/arm-cs-tools-ubuntu-$bitness.tar.gz
+tar xf arm-cs-tools-ubuntu-$bitness.tar.gz
+mv arm-cs-tools /usr/share/pebble-arm-cs-tools
+rm -rf $dir
