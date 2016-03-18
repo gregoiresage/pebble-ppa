@@ -1,5 +1,6 @@
 #!/bin/bash 
 version="4.2"
+destination="/usr/share/pebble-sdk"
 
 if [ $(uname -m) == 'x86_64' ]; then
   bitness="64"
@@ -7,19 +8,20 @@ else
   bitness="32"
 fi
 
-destination="/usr/share/pebble-sdk"
+rm -rf $destination
 
-mkdir -p $destination
-rm -rf $destination/*
-cd $destination
-
-wget https://s3.amazonaws.com/assets.getpebble.com/pebble-tool/pebble-sdk-$version-linux$bitness.tar.bz2
+dir=`mktemp -d` && cd $dir
+wget https://dl.dropboxusercontent.com/u/20902550/pebble-sdk/pebble-sdk-$version-linux$bitness.tar.bz2
 tar xf pebble-sdk-$version-linux$bitness.tar.bz2
-mv pebble-sdk-$version-linux$bitness/* .
-rm -rf pebble-sdk-$version-linux$bitness*
+mv pebble-sdk-$version-linux$bitness $destination
 
-sudo pip install -q virtualenv
+cd $destination
+ln -s /usr/share/pebble-arm-cs-tools arm-cs-tools
+
+pip install -q virtualenv
 virtualenv --no-site-packages .env
 source .env/bin/activate
 pip install -q -r requirements.txt
 deactivate
+
+rm -rf $dir
