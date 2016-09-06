@@ -1,5 +1,5 @@
-pebble-sdk-extras (0.0.4.0) trusty; urgency=low
+pebble-sdk-extras (0.0.5.0) trusty; urgency=low
 
-  * Add packages completions
+  * Add emu-set-timeline-quick-view completion + missing platforms
 
- -- Grégoire Sage <gregoire.sage@gmail.com>  Wed, 8 Jun 2016 15:30:00 +0100
+ -- Grégoire Sage <gregoire.sage@gmail.com>  Wed, 7 Sep 2016 00:00:00 +0100
