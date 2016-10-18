@@ -1,5 +1,5 @@
 #!/bin/bash 
-version="4.5-rc1"
+version="4.5"
 destination="/usr/share/pebble-sdk"
 
 if [ $(uname -m) == 'x86_64' ]; then
